@@ -1,0 +1,17 @@
+integer pow integer b, integer e begin
+	integer r: 1.
+	for e: e. e != 0. e: e - 1. begin
+		r: r * b.
+	end
+	return r.
+end
+
+main begin
+	integer b.
+	integer e.
+	output "digite a base".
+	input b.
+	output "digite o expoente".
+	input e.
+	output @pow b, e.
+end

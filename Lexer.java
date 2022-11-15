@@ -43,11 +43,11 @@ public class Lexer {
     		new Token("CLOSEPARENTHESIS", "\\)"),
     		new Token("AT", "@"),
     		new Token("DOUBLEQUOTE", "\""),
-    		new Token("QUOTE", "\'"),
     		//tipos e variaveis
     		new Token("VARIABLE", "[a-zA-Z][a-zA-Z0-9]*"), 
     		new Token("REAL", "-?[0-9]+,[0-9]+"),
     		new Token("INTEGER", "-?[0-9]+"), 
+    		new Token("CHARACTER", "\'.\'"),
     		//espaço
     		new Token("SPACE", "\\s")};
     private final String input;

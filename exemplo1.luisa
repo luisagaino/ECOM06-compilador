@@ -1,3 +1,20 @@
-main begin
-	output "alo".
+integer fib integer n begin
+    if n = 1 begin
+        return 1.
+    end 
+    else begin
+        if n = 2 begin
+            return 1.
+        end
+        else begin
+            return (@fib (n - 1)) + (@fib (n - 2)).
+        end
+    end
 end
+
+main begin 
+    integer n.
+    output "digite a posicao da sequencia de fibonacci desejada".
+    input n.
+    output @fib n.
+end 

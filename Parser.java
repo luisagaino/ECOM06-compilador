@@ -91,7 +91,7 @@ public class Parser {
 				break;
 			case "VARIABLE":
 				file.write("\n\t");
-				position = attribution(position);
+				position = attribution(position, false);
 				break;
 			case "AT":
 				file.write("\n\t");
@@ -217,7 +217,7 @@ public class Parser {
 			file.write(value(position));
 
 			position++;
-			if (validate(position, "SEMICOLON")) {
+			if (validate(position, "COMMA")) {
 				file.write(", ");
 				position++;
 				continue;
@@ -320,7 +320,6 @@ public class Parser {
 			position = arithmeticExpression(position);
 
 		if (!validate(++position, "PERIOD")) {
-			System.out.println(name(position));
 			throw new Exception("Símbolo não reconhecido");
 		}
 		file.write(";");
@@ -341,7 +340,7 @@ public class Parser {
 			position++;
 			if (validate(position, "VARIABLE") || validate(position, "INTEGER") || validate(position, "REAL")) {
 				position = arithmeticExpression(position);
-				if (validate(position + 1, "SEMICOLON")) {
+				if (validate(position + 1, "COMMA")) {
 					file.write(", ");
 					position++;
 				}
@@ -350,7 +349,7 @@ public class Parser {
 				break;
 			} else if (validate(position, "OPENPARENTHESIS")) {
 				position = arithmeticExpression(position);
-				if (validate(position + 1, "SEMICOLON")) {
+				if (validate(position + 1, "COMMA")) {
 					file.write(", ");
 					position++;
 				} else {
@@ -371,7 +370,7 @@ public class Parser {
 		return position;
 	}
 
-	private int attribution(int position) throws Exception {
+	private int attribution(int position, boolean isFor) throws Exception {
 		// VARIABLE: (arithmeticExpression/CHARACTER/functionCall)
 		if (!validate(position, "VARIABLE"))
 			throw new Exception("Nome de variável inválido");
@@ -392,7 +391,8 @@ public class Parser {
 
 			if (!validate(++position, "PERIOD"))
 				throw new Exception("Símbolo não reconhecido");
-			file.write(";");
+			if(!isFor)
+				file.write(";");
 		}
 
 		return position;
@@ -463,13 +463,13 @@ public class Parser {
 			throw new Exception("For inválido");
 		file.write("\n\tfor(");
 
-		position = attribution(++position);
+		position = attribution(++position, false);
 		file.write(" ");
 		position = logicalExpression(++position);
 		if (!validate(++position, "PERIOD"))
 			throw new Exception("Símbolo não reconhecido");
 		file.write("; ");
-		position = attribution(++position);
+		position = attribution(++position, true);
 
 		if (!validate(++position, "BEGIN"))
 			throw new Exception("Token de início da função inválido");
