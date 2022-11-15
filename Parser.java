@@ -217,7 +217,7 @@ public class Parser {
 			file.write(value(position));
 
 			position++;
-			if (validate(position, "COMMA")) {
+			if (validate(position, "SEMICOLON")) {
 				file.write(", ");
 				position++;
 				continue;
@@ -308,8 +308,14 @@ public class Parser {
 		if (validate(position, "AT")) {
 			position = arithmeticExpression(position);
 			return position;
-		} else if (validate(position, "STRING")) {
-			file.write(value(position));
+		} else if (validate(position, "DOUBLEQUOTE")) {
+			file.write("\"");
+			while(validate(position + 1, "VARIABLE") || validate(position + 1, "INTEGER")) {
+				file.write(value(++position) + " ");
+			}
+			if(!validate(++position, "DOUBLEQUOTE"))
+				throw new Exception("Aspas duplas não fechadas");
+			file.write("\"");
 		} else
 			position = arithmeticExpression(position);
 
@@ -335,7 +341,7 @@ public class Parser {
 			position++;
 			if (validate(position, "VARIABLE") || validate(position, "INTEGER") || validate(position, "REAL")) {
 				position = arithmeticExpression(position);
-				if (validate(position + 1, "COMMA")) {
+				if (validate(position + 1, "SEMICOLON")) {
 					file.write(", ");
 					position++;
 				}
@@ -344,7 +350,7 @@ public class Parser {
 				break;
 			} else if (validate(position, "OPENPARENTHESIS")) {
 				position = arithmeticExpression(position);
-				if (validate(position + 1, "COMMA")) {
+				if (validate(position + 1, "SEMICOLON")) {
 					file.write(", ");
 					position++;
 				} else {
