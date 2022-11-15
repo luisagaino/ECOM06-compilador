@@ -1,0 +1,10 @@
+main begin
+	integer s: 0.
+	integer n: 0.
+	while n >= 0 begin
+		s: s + n.
+		output "digite um numero positivo para somar".
+		input n.
+	end
+	output s.
+end
