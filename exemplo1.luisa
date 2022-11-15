@@ -1,0 +1,3 @@
+main begin
+	output "alo".
+end
